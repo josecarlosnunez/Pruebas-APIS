@@ -78,8 +78,9 @@ for i in range(len(ordenes)):
 
 
 #print(ordenesNuevas)
-
-print(ordenesNuevas["ORDEN1"]["PickticketHeaderFields"]["ShipToName"])
+for j in range(len(ordenes)):
+    nombre=ordenesNuevas["ORDEN"+str(j)]["PickticketHeaderFields"]["ShipToName"]
+    print("El nombre de la orden " + str(j) + " es: " + nombre)
 
 
 """
