@@ -1,8 +1,11 @@
 # importing the requests library
 from lib2to3.pytree import convert
+from pickle import APPEND
 import requests
 import xmltodict
 import base64
+import json
+from collections import ChainMap
   
 # defining the api-endpoint 
 API_ENDPOINT = "http://3.210.130.84:8080/dsv-web-demo/api/entregarTransacciones"
@@ -36,7 +39,7 @@ response_json = response.json()
 tipo = response_json['documentos']
 
 # extracting response text 
-print(len(tipo))
+#print(len(tipo))
 
 ordenes = list() #Aqui van todas las ordenes sin codificar
 
@@ -47,7 +50,8 @@ for i in range(0,len(tipo),2):
         ordenes.append(convertDIC['archivo'])
 
 
-ordenesNuevas = list()
+ordenesNuevas = {}
+ordernbr = list()
 
 print("Hay " + str(len(ordenes)) + " ordenes nuevas")
 
@@ -63,10 +67,20 @@ for i in range(len(ordenes)):
         my_dict = xmltodict.parse(my_xml)
         completo = my_dict["PickticketBridge"]["Pickticket"]
         datosPEDIDO = completo["PickticketHeaderFields"]
-        ordenesNuevas.append(dict(completo))
+        ordernbr.append(completo['OrderNbr'])
+        datosPEDIDO['OrdenNumero'] = i + 1
+        
+        
+        print(completo)
 
-print(ordenesNuevas)
-print("hola")
+
+#print(ordenesNuevas)
+
+print(completo)
+
+    
+with open("sample.json", "w") as outfile:
+    json.dump(ordenesNuevas, outfile)
         
 
 
