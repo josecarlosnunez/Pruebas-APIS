@@ -122,7 +122,7 @@ for k in range(len(ordenes)):
 
         SKUfin = SKU1 + sufijo
 
-        print(SKUfin)
+        
     
 
 
@@ -175,20 +175,76 @@ for k in range(len(ordenes)):
                 "order_items":
                 { "ListaProd":
                 
-                    {
-                    "name": "Producto1",
-                    "code": SKUfin
+                    { 
+                    "name": "Producto0",
+                    "code": SKU1 + str(PickTick[l]["SKU"]["SKUDefinition"]["StyleSuffix"])
 
                     }
 
                 }
                 
+                
                 }
-
+        
+        print(SKUfin)
+        
         for x in range(0, len(PickTick)):
             DATAFIN["Producto{0}".format(x)] = dataOD["order_items"]["ListaProd"]
 
-        response = requests.post(url = OD_URL, headers=headersOD, json = dataOD)
-        print(response.status_code)
+        dataOD1 = {
 
-print(DATAFIN)
+                "OrderInfo":
+                {
+                    "id":ordenesNuevas["ORDEN"+str(k)]["OrderNbr"],
+                    "source_id":ordenesNuevas["ORDEN"+str(k)]["OrderNbr"],
+                    "source_name":"Walmart",     
+                    
+                    
+                    "email": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["CustomerEmail"],
+                    "shipping_method": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["CustomerEmail"],
+                    "date_added": fecha_completa,
+                    "date_updated": fecha_completa,
+                    "shipping": {
+                        "first_name": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToName2"],
+                        "last_name": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToName2"],
+                        "address1": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToAddr1"],
+                        "address2": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToAddr2"],
+                        "address3": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToAddr3"],
+                        "city": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToCity"],
+                        "state": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToState"],
+                        "postal_code": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["ShipToZip"],
+                        "country": "MEX",
+                        "phone": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["TelephoneNumber"]
+
+                    }
+
+
+                },
+
+                "customer":
+                {
+                    "first_name": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["SoldToName"],
+                    "last_name": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["SoldToName2"],
+                    "address1": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["SoldToAddr1"],
+                    "address2": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["SoldToAddr3"],
+                    "city": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["SoldToCity"],
+                    "state": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["SoldToState"],
+                    "postal_code": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["SoldToZip"],
+                    "country": "MEX",
+                    "phone": ordenesNuevas["ORDEN"+str(k)]["PickticketHeaderFields"]["TelephoneNumber"]
+
+                },
+                "order_items": DATAFIN
+                
+                
+
+
+                
+                }
+        
+
+
+    response = requests.post(url = OD_URL, headers=headersOD, json = dataOD1)
+    print(response.status_code)
+
+    print(dataOD1)
