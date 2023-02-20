@@ -3,7 +3,6 @@
 # importing the requests library
 from lib2to3.pytree import convert
 from pickle import APPEND
-from tkinter.ttk import Style
 import requests
 import xmltodict
 from requests.structures import CaseInsensitiveDict
